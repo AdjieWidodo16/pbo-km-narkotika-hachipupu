@@ -1,5 +1,6 @@
 # KMS Putusan Pengadilan Narkotika
-Kelompok hachipupu — PBO Semester Genap 2025/2026
+Kelompok hachipupu — Pemrograman Berorientasi Obyek Semester Genap 2025/2026
+Dosen Pengampu : 	Ir. Galih Wasis Wicaksono, S.kom. M.Cs.
 
 ## Anggota Kelompok
 | Nama | NIM | Peran |
