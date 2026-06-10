@@ -6,5 +6,5 @@ Dosen Pengampu : 	Ir. Galih Wasis Wicaksono, S.kom. M.Cs.
 | Nama | NIM | Peran |
 |------|-----|-------|
 | Dzikri Ngesti Adjie Widodo | [202510370110102] | Backend Developer (Controller) |
-| Adinda Mayditia Susanti | [20251037011010071] | Knowledge Engineer (Model) |
+| Adinda Mayditia Susanti | [202510370110071] | Knowledge Engineer (Model) |
 | Vicka Dewi Anggraini | [20251037010065] | GUI Designer (View) |
