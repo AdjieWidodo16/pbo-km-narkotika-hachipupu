@@ -39,21 +39,25 @@ public class DataSampel {
                 "Hakim Dedi"
         ));
 
+        String[] jenis = {"Sabu", "Ganja", "Ekstasi"};
+        String[] peran = {"Pengedar", "Pemakai", "Kurir"};
+        String[] hakim = {"Hakim Budi", "Hakim Dedi", "Hakim Sari"};
+
         for (int i = 3; i <= 50; i++) {
 
             repo.simpan(new Putusan(
-                    i + "/Pid.Sus/2026",
+                    String.format("%03d/Pid.Sus/2026", i),
                     "PN Surabaya",
                     "20-01-2026",
                     "Terdakwa" + i,
                     20 + i,
-                    "Sabu",
-                    1.5,
+                    jenis[i % jenis.length],
+                    1.5 + i,
                     "Pasal 112",
-                    "Pengedar",
-                    24,
+                    peran[i % peran.length],
+                    24 + i,
                     25000000,
-                    "Hakim Budi"
+                    hakim[i % hakim.length]
             ));
 
         }
