@@ -1,83 +1,79 @@
 package app;
 
 import controller.KnowledgeController;
+import model.Putusan;
+import model.StatistikPutusan;
 import view.ConsoleView;
 
-import java.util.Scanner;
+import java.util.ArrayList;
 
-/**
- * Entry point aplikasi KMS Putusan Pengadilan Narkotika.
- * Main HANYA berisi inisialisasi komponen MVC dan menjalankan loop menu.
- * TIDAK ada logika bisnis di sini.
- *
- * @author Adjie Widodo - Backend Developer (Controller)
- * @version 1.0
- */
 public class Main {
-
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        // Inisialisasi komponen MVC
         KnowledgeController controller = new KnowledgeController();
         ConsoleView view = new ConsoleView();
 
-        System.out.println("╔══════════════════════════════════════════╗");
-        System.out.println("║   KMS PUTUSAN PENGADILAN NARKOTIKA       ║");
-        System.out.println("║   Kelompok hachipupu — PBO 2025/2026     ║");
-        System.out.println("╚══════════════════════════════════════════╝");
-        System.out.println("Data berhasil dimuat: " +
-                           controller.getTotalData() + " putusan tersedia.\n");
-
-        // Loop menu utama
         boolean running = true;
         while (running) {
-            int pilihan = view.tampilkanMenu(sc);
+            int pilihan = view.tampilkanMenu();
 
             switch (pilihan) {
-                case 1:
-                    // Tambah putusan
-                    controller.tambahPutusan(sc);
-                    break;
-                case 2:
-                    // Tampilkan semua putusan
-                    view.tampilkanDaftarPutusan(controller.getDaftarSemua());
-                    break;
-                case 3:
-                    // Cari putusan
-                    System.out.print("Cari berdasarkan (nomor/nama): ");
-                    String mode = sc.nextLine().trim();
-                    System.out.print("Masukkan keyword: ");
-                    String keyword = sc.nextLine().trim();
-                    view.tampilkanDaftarPutusan(controller.cariPutusan(keyword, mode));
-                    break;
-                case 4:
-                    // Filter putusan
-                    System.out.print("Filter berdasarkan (jenis/pengadilan): ");
-                    String kriteria = sc.nextLine().trim();
-                    System.out.print("Masukkan nilai filter: ");
-                    String nilai = sc.nextLine().trim();
-                    view.tampilkanDaftarPutusan(controller.filterPutusan(kriteria, nilai));
-                    break;
-                case 5:
-                    // Statistik
-                    view.tampilkanStatistik(controller.getStatistik());
-                    break;
-                case 6:
-                    // Hapus putusan
-                    System.out.print("Masukkan nomor perkara yang dihapus: ");
-                    String nomor = sc.nextLine().trim();
-                    controller.hapusPutusan(nomor);
-                    break;
-                case 0:
-                    // Keluar
-                    System.out.println("\nTerima kasih. Sampai jumpa!");
+                case 1 -> {
+                    Putusan p = view.inputFormPutusan();
+                    boolean ok = controller.tambahPutusan(p);
+                    view.tampilkanPesan(ok ? "[SUKSES] Data berhasil ditambahkan!"
+                                           : "[GAGAL] Nomor perkara sudah ada.");
+                    view.pressEnter();
+                }
+                case 2 -> {
+                    ArrayList<Putusan> semua = controller.getDaftarSemua();
+                    view.tampilkanDaftarPutusan(semua);
+                    view.pressEnter();
+                }
+                case 3 -> {
+                    String mode    = view.bacaInput("Mode cari (nomor/nama): ");
+                    String keyword = view.bacaInput("Keyword: ");
+                    ArrayList<Putusan> hasil = controller.cariPutusan(keyword, mode);
+                    view.tampilkanDaftarPutusan(hasil);
+                    view.pressEnter();
+                }
+                case 4 -> {
+                    String kriteria = view.bacaInput("Kriteria filter (jenis/pengadilan): ");
+                    String nilai    = view.bacaInput("Nilai: ");
+                    ArrayList<Putusan> filtered = controller.filterPutusan(kriteria, nilai);
+                    view.tampilkanDaftarPutusan(filtered);
+                    view.pressEnter();
+                }
+                case 5 -> {
+                    StatistikPutusan stat = controller.getStatistik();
+                    stat.tampilkanLaporan();
+                    int ringan = 0, sedang = 0, berat = 0;
+                    for (Putusan p : controller.getDaftarSemua()) {
+                        switch (p.getKategoriHukuman()) {
+                            case "Ringan" -> ringan++;
+                            case "Sedang" -> sedang++;
+                            case "Berat"  -> berat++;
+                        }
+                    }
+                    view.tampilkanStatistik(ringan, sedang, berat);
+                    view.pressEnter();
+                }
+                case 6 -> {
+                    String nomor = view.bacaInput("Nomor perkara yang dihapus: ");
+                    boolean ok = controller.hapusPutusan(nomor);
+                    view.tampilkanPesan(ok ? "[SUKSES] Data dihapus."
+                                           : "[GAGAL] Data tidak ditemukan.");
+                    view.pressEnter();
+                }
+                case 0 -> {
+                    view.tampilkanPesan("Terima kasih. Program selesai.");
                     running = false;
-                    break;
-                default:
+                }
+                default -> {
                     view.tampilkanPesan("[ERROR] Pilihan tidak valid.");
+                    view.pressEnter();
+                }
             }
         }
-        sc.close();
     }
 }
