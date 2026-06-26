@@ -12,6 +12,9 @@ public class ConsoleView {
         this.input = new Scanner(System.in);
     }
 
+    // =========================
+    // TITLE
+    // =========================
     public void showTitle() {
         System.out.println("====================================================");
         System.out.println("     KNOWLEDGE MANAGEMENT SYSTEM");
@@ -19,6 +22,9 @@ public class ConsoleView {
         System.out.println("====================================================");
     }
 
+    // =========================
+    // MENU
+    // =========================
     public int tampilkanMenu() {
         showTitle();
         System.out.println("1. Tambah Putusan");
@@ -32,7 +38,9 @@ public class ConsoleView {
         return readInt();
     }
 
-    // Return Putusan langsung, bukan String[]
+    // =========================
+    // INPUT FORM PUTUSAN
+    // =========================
     public Putusan inputFormPutusan() {
         showTitle();
         System.out.println("========== TAMBAH DATA PUTUSAN ==========\n");
@@ -54,7 +62,9 @@ public class ConsoleView {
                            jenis, berat, pasal, peran, vonis, denda, hakim);
     }
 
-    // Terima List<Putusan>, bukan List<String[]>
+    // =========================
+    // TAMPILKAN DAFTAR PUTUSAN
+    // =========================
     public void tampilkanDaftarPutusan(List<Putusan> data) {
         showTitle();
         if (data.isEmpty()) {
@@ -76,7 +86,9 @@ public class ConsoleView {
         System.out.println("Total: " + data.size() + " data");
     }
 
-    // Terima Putusan langsung
+    // =========================
+    // DETAIL PUTUSAN
+    // =========================
     public void tampilkanDetail(Putusan p) {
         showTitle();
         System.out.println("========== DETAIL PUTUSAN ==========\n");
@@ -95,16 +107,30 @@ public class ConsoleView {
         System.out.println("Kategori Hukuman  : " + p.getKategoriHukuman());
     }
 
+    // =========================
+    // STATISTIK
+    // =========================
     public void tampilkanStatistik(int ringan, int sedang, int berat) {
         showTitle();
         System.out.println("========== STATISTIK PUTUSAN ==========\n");
-        System.out.println("Ringan (≤12 bln) : " + ringan);
-        System.out.println("Sedang (≤60 bln) : " + sedang);
-        System.out.println("Berat  (>60 bln) : " + berat);
+        System.out.println("Ringan (<=12 bln) : " + ringan);
+        System.out.println("Sedang (<=60 bln) : " + sedang);
+        System.out.println("Berat  (>60 bln)  : " + berat);
     }
 
+    // =========================
+    // PESAN
+    // =========================
     public void tampilkanPesan(String pesan) {
         System.out.println("\n" + pesan);
+    }
+
+    // =========================
+    // BACA INPUT HELPER
+    // =========================
+    public String bacaInput(String prompt) {
+        System.out.print(prompt);
+        return input.nextLine().trim();
     }
 
     public void pressEnter() {
@@ -112,11 +138,13 @@ public class ConsoleView {
         input.nextLine();
     }
 
+    // =========================
+    // PRIVATE HELPER
+    // =========================
     private int readInt() {
         while (true) {
             try {
-                int val = Integer.parseInt(input.nextLine().trim());
-                return val;
+                return Integer.parseInt(input.nextLine().trim());
             } catch (NumberFormatException e) {
                 System.out.print("  [ERROR] Harus angka. Ulangi: ");
             }
@@ -126,10 +154,9 @@ public class ConsoleView {
     private double readDouble() {
         while (true) {
             try {
-                double val = Double.parseDouble(input.nextLine().trim());
-                return val;
+                return Double.parseDouble(input.nextLine().trim());
             } catch (NumberFormatException e) {
-                System.out.print("  [ERROR] Harus angka. Ulangi: ");
+                System.out.print("  [ERROR] Harus angka desimal. Ulangi: ");
             }
         }
     }
