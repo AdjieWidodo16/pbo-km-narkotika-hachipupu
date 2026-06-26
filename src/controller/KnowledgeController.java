@@ -31,16 +31,15 @@ public class KnowledgeController {
      * @param sc Scanner untuk input interaktif
      * @return true jika berhasil disimpan
      */
-    public boolean tambahPutusan(Scanner sc) {
-        System.out.println("\n--- TAMBAH PUTUSAN BARU ---");
-        try {
-            String nomor = InputHandler.validasiString("Nomor Perkara   : ", sc);
-
-            // Cek duplikat nomor perkara
-            if (repository.cariByNomor(nomor) != null) {
-                System.out.println("[GAGAL] Nomor perkara sudah ada di sistem.");
-                return false;
-            }
+    public boolean tambahPutusan(Putusan p) {
+    if (repository.cariByNomor(p.getNomorPerkara()) != null) {
+        System.out.println("[GAGAL] Nomor perkara sudah ada di sistem.");
+        return false;
+    }
+    repository.simpan(p);
+    System.out.println("[SUKSES] Putusan berhasil disimpan. Total data: " + repository.getTotalData());
+    return true;
+}
 
             String pengadilan = InputHandler.validasiString("Pengadilan       : ", sc);
             String tanggal    = InputHandler.validasiString("Tanggal Putusan  : ", sc);
