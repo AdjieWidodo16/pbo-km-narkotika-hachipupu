@@ -55,12 +55,10 @@ public class StatistikPutusan {
 
     // Tampilkan laporan
     public void tampilkanLaporan() {
-
         System.out.println("===== Statistik Putusan =====");
-        System.out.println("Total Putusan : " + totalPutusan());
-        System.out.println("Rata-rata Vonis : " + rataRataVonis());
-        System.out.println("Rata-rata Denda : " + rataRataDenda());
-
+        System.out.println("Total Putusan    : " + totalPutusan());
+        System.out.printf("Rata-rata Vonis  : %.1f bulan%n", rataRataVonis());
+        System.out.printf("Rata-rata Denda  : Rp %,.0f%n", rataRataDenda());
     }
 
 }
