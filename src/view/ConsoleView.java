@@ -24,6 +24,10 @@ public class ConsoleView {
 
     // =========================
     // MENU
+    /**
+     * Menampilkan menu utama dan membaca pilihan user.
+     * @return pilihan menu sebagai integer
+     */
     // =========================
     public int tampilkanMenu() {
         showTitle();
