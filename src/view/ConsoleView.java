@@ -50,8 +50,11 @@ public class ConsoleView {
 
         String[] data = new String[12];
 
-        System.out.print("Nomor Perkara        : ");
-        data[0] = input.nextLine();
+        String nomor;
+        do {
+            System.out.print("Nomor Perkara : ");
+            nomor = input.nextLine().trim();
+        } while (nomor.isEmpty());
 
         System.out.print("Pengadilan           : ");
         data[1] = input.nextLine();
