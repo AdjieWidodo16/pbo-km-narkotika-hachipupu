@@ -1,5 +1,6 @@
 package view;
 
+import model.Putusan;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ public class ConsoleView {
     private final Scanner input;
 
     public ConsoleView() {
-        input = InputHelper.getScanner();
+        this.input = new Scanner(System.in);
     }
 
     // =========================
@@ -23,10 +24,13 @@ public class ConsoleView {
 
     // =========================
     // MENU
+    /**
+     * Menampilkan menu utama dan membaca pilihan user.
+     * @return pilihan menu sebagai integer
+     */
     // =========================
     public int tampilkanMenu() {
         showTitle();
-
         System.out.println("1. Tambah Putusan");
         System.out.println("2. Lihat Semua Putusan");
         System.out.println("3. Cari Putusan");
@@ -34,113 +38,114 @@ public class ConsoleView {
         System.out.println("5. Statistik");
         System.out.println("6. Hapus Putusan");
         System.out.println("0. Keluar");
-
         System.out.print("\nPilih menu : ");
         return readInt();
     }
 
     // =========================
     // INPUT FORM PUTUSAN
-    // return String[] (DTO sederhana)
     // =========================
-    public String[] inputFormPutusan() {
-
+    public Putusan inputFormPutusan() {
         showTitle();
         System.out.println("========== TAMBAH DATA PUTUSAN ==========\n");
 
-        String[] data = new String[12];
-
         System.out.print("Nomor Perkara        : ");
-        data[0] = input.nextLine();
+        String nomor;
+        do {
+            System.out.print("Nomor Perkara : ");
+            nomor = input.nextLine().trim();
+        } while (nomor.isEmpty());
 
         System.out.print("Pengadilan           : ");
-        data[1] = input.nextLine();
+        String pengadilan = input.nextLine();
 
         System.out.print("Tanggal Putusan      : ");
-        data[2] = input.nextLine();
+        String tanggal = input.nextLine();
 
         System.out.print("Nama Terdakwa        : ");
-        data[3] = input.nextLine();
+        String nama = input.nextLine();
 
         System.out.print("Umur Terdakwa        : ");
-        data[4] = input.nextLine();
+        int umur = readInt();
 
         System.out.print("Jenis Narkotika      : ");
-        data[5] = input.nextLine();
+        String jenis = input.nextLine();
 
         System.out.print("Berat Barang Bukti   : ");
-        data[6] = input.nextLine();
+        double berat = readDouble();
 
         System.out.print("Pasal Dilanggar      : ");
-        data[7] = input.nextLine();
+        String pasal = input.nextLine();
 
         System.out.print("Peran Terdakwa       : ");
-        data[8] = input.nextLine();
+        String peran = input.nextLine();
 
-        System.out.print("Vonis Hukuman        : ");
-        data[9] = input.nextLine();
+        System.out.print("Vonis Hukuman (bln)  : ");
+        int vonis = readInt();
 
         System.out.print("Vonis Denda          : ");
-        data[10] = input.nextLine();
+        double denda = readDouble();
 
         System.out.print("Nama Hakim           : ");
-        data[11] = input.nextLine();
+        String hakim = input.nextLine();
 
-        return data;
+        return new Putusan(nomor, pengadilan, tanggal, nama, umur,
+                jenis, berat, pasal, peran, vonis, denda, hakim);
     }
 
     // =========================
-    // TAMPILKAN DAFTAR PUTUSAN (TABEL)
+    // TAMPILKAN DAFTAR PUTUSAN
     // =========================
-    public void tampilkanDaftarPutusan(List<String[]> data) {
-
+    public void tampilkanDaftarPutusan(List<Putusan> data) {
         showTitle();
-        System.out.println("==============================================================");
-        System.out.printf("%-12s %-20s %-18s %-10s%n",
-                "No", "Terdakwa", "Narkotika", "Vonis");
-        System.out.println("==============================================================");
-
-        for (String[] p : data) {
-            System.out.printf("%-12s %-20s %-18s %-10s%n",
-                    p[0], p[3], p[5], p[9]);
+        if (data.isEmpty()) {
+            System.out.println("[INFO] Tidak ada data untuk ditampilkan.");
+            return;
         }
-
         System.out.println("==============================================================");
+        for (Putusan p : data) {
+            System.out.printf("%-25s %-18s %-12s %-8s %-8s%n",
+                    "Nomor Perkara", "Terdakwa", "Narkotika", "Vonis", "Kategori");
+// lalu di loop:
+            System.out.printf("%-25s %-18s %-12s %-8s %-8s%n",
+                    p.getNomorPerkara(), p.getNamaTerdakwa(),
+                    p.getJenisNarkotika(), p.getVonisHukuman() + " bln",
+                    p.getKategoriHukuman());
+        }
+        System.out.println("==============================================================");
+        System.out.println("Total: " + data.size() + " data");
     }
 
     // =========================
     // DETAIL PUTUSAN
     // =========================
-    public void tampilkanDetail(String[] p) {
-
+    public void tampilkanDetail(Putusan p) {
         showTitle();
         System.out.println("========== DETAIL PUTUSAN ==========\n");
-
-        System.out.println("Nomor Perkara     : " + p[0]);
-        System.out.println("Pengadilan        : " + p[1]);
-        System.out.println("Tanggal Putusan   : " + p[2]);
-        System.out.println("Nama Terdakwa     : " + p[3]);
-        System.out.println("Umur Terdakwa     : " + p[4]);
-        System.out.println("Jenis Narkotika   : " + p[5]);
-        System.out.println("Berat Barang Bukti: " + p[6]);
-        System.out.println("Pasal Dilanggar   : " + p[7]);
-        System.out.println("Peran Terdakwa    : " + p[8]);
-        System.out.println("Vonis Hukuman     : " + p[9]);
-        System.out.println("Vonis Denda       : " + p[10]);
-        System.out.println("Nama Hakim        : " + p[11]);
+        System.out.println("Nomor Perkara     : " + p.getNomorPerkara());
+        System.out.println("Pengadilan        : " + p.getPengadilan());
+        System.out.println("Tanggal Putusan   : " + p.getTanggalPutusan());
+        System.out.println("Nama Terdakwa     : " + p.getNamaTerdakwa());
+        System.out.println("Umur Terdakwa     : " + p.getUmurTerdakwa());
+        System.out.println("Jenis Narkotika   : " + p.getJenisNarkotika());
+        System.out.println("Berat Barang Bukti: " + p.getBeratBarangBukti() + " gram");
+        System.out.println("Pasal Dilanggar   : " + p.getPasalDilanggar());
+        System.out.println("Peran Terdakwa    : " + p.getPeranTerdakwa());
+        System.out.println("Vonis Hukuman     : " + p.getVonisHukuman() + " bulan");
+        System.out.println("Vonis Denda       : Rp " + p.getVonisDenda());
+        System.out.println("Nama Hakim        : " + p.getNamaHakim());
+        System.out.println("Kategori Hukuman  : " + p.getKategoriHukuman());
     }
 
     // =========================
     // STATISTIK
     // =========================
     public void tampilkanStatistik(int ringan, int sedang, int berat) {
-
         showTitle();
         System.out.println("========== STATISTIK PUTUSAN ==========\n");
-
-        System.out.println("Ringan : " + ringan);
-        System.out.println("Sedang : " + sedang);
-        System.out.println("Berat  : " + berat);
+        System.out.println("Ringan (<=12 bln) : " + ringan);
+        System.out.println("Sedang (<=60 bln) : " + sedang);
+        System.out.println("Berat  (>60 bln)  : " + berat);
     }
 
     // =========================
@@ -151,20 +156,38 @@ public class ConsoleView {
     }
 
     // =========================
-    // HELPER INPUT AMAN
+    // BACA INPUT HELPER
     // =========================
-    private int readInt() {
-        while (!input.hasNextInt()) {
-            System.out.print("Input harus angka! Ulangi: ");
-            input.next();
-        }
-        int value = input.nextInt();
-        input.nextLine(); // clear buffer
-        return value;
+    public String bacaInput(String prompt) {
+        System.out.print(prompt);
+        return input.nextLine().trim();
     }
 
     public void pressEnter() {
         System.out.println("\nTekan ENTER untuk lanjut...");
         input.nextLine();
+    }
+
+    // =========================
+    // PRIVATE HELPER
+    // =========================
+    private int readInt() {
+        while (true) {
+            try {
+                return Integer.parseInt(input.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.print("  [ERROR] Harus angka. Ulangi: ");
+            }
+        }
+    }
+
+    private double readDouble() {
+        while (true) {
+            try {
+                return Double.parseDouble(input.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.print("  [ERROR] Harus angka desimal. Ulangi: ");
+            }
+        }
     }
 }
