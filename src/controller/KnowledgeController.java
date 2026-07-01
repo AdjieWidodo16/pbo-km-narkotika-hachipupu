@@ -94,10 +94,17 @@ public class KnowledgeController {
     }
 
     // ==================== GETTER ====================
+    /**
+     * Mengembalikan seluruh daftar putusan untuk ditampilkan View.
+     * @return semua putusan dalam ArrayList
+     */
     public ArrayList<Putusan> getDaftarSemua() {
         return repository.getDaftarSemua();
     }
-
+    /**
+     * Mengembalikan total jumlah data di repository.
+     * @return jumlah data
+     */
     public int getTotalData() {
         return repository.getTotalData();
     }
