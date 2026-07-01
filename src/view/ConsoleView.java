@@ -99,15 +99,14 @@ public class ConsoleView {
             return;
         }
         System.out.println("==============================================================");
-        System.out.printf("%-30s %-20s %-15s %-8s%n",
-                "Nomor Perkara", "Terdakwa", "Narkotika", "Vonis");
-        System.out.println("==============================================================");
         for (Putusan p : data) {
-            System.out.printf("%-30s %-20s %-15s %-8s%n",
-                    p.getNomorPerkara(),
-                    p.getNamaTerdakwa(),
-                    p.getJenisNarkotika(),
-                    p.getVonisHukuman() + " bln");
+            System.out.printf("%-25s %-18s %-12s %-8s %-8s%n",
+                    "Nomor Perkara", "Terdakwa", "Narkotika", "Vonis", "Kategori");
+// lalu di loop:
+            System.out.printf("%-25s %-18s %-12s %-8s %-8s%n",
+                    p.getNomorPerkara(), p.getNamaTerdakwa(),
+                    p.getJenisNarkotika(), p.getVonisHukuman() + " bln",
+                    p.getKategoriHukuman());
         }
         System.out.println("==============================================================");
         System.out.println("Total: " + data.size() + " data");
