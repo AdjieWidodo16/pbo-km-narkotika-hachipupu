@@ -23,6 +23,9 @@ public class InputHandler {
             System.out.print(prompt);
             try {
                 int nilai = Integer.parseInt(sc.nextLine().trim());
+                if (nilai < 0) {
+                    System.out.println("[ERROR] Nilai harus positif.");
+                }
                 return nilai;
             } catch (NumberFormatException e) {
                 System.out.println("  [ERROR] Harus berupa angka bulat. Coba lagi.");
