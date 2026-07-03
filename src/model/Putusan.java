@@ -20,6 +20,10 @@ public class Putusan implements Displayable {
 
     private static int jumlahDibuat = 0;
 
+    /**
+     * Constructor untuk membuat objek Putusan.
+     */
+
     // Constructor kosong
     public Putusan() {
         jumlahDibuat++;
