@@ -24,6 +24,11 @@ public class KnowledgeController {
 
     // ==================== TAMBAH ====================
     public boolean tambahPutusan(Putusan p) {
+        for (Putusan p : daftarPutusan) {
+            if (p.getNomorPerkara().equalsIgnoreCase(putusan.getNomorPerkara())) {
+                return false;
+            }
+        }
         if (repository.cariByNomor(p.getNomorPerkara()) != null) {
             System.out.println("[GAGAL] Nomor perkara sudah ada di sistem.");
             return false;
