@@ -3,10 +3,8 @@ package controller;
 import model.KnowledgeRepository;
 import model.Putusan;
 import model.StatistikPutusan;
-import util.InputHandler;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Controller utama — menjembatani Model dan View.
@@ -21,62 +19,23 @@ public class KnowledgeController {
 
     public KnowledgeController() {
         this.repository = new KnowledgeRepository();
-        muatDataSampel(); // isi 50 data awal saat aplikasi dijalankan
+        muatDataSampel();
     }
 
     // ==================== TAMBAH ====================
-
-    /**
-     * Menerima input dari View, validasi, lalu simpan ke Repository.
-     * @param sc Scanner untuk input interaktif
-     * @return true jika berhasil disimpan
-     */
     public boolean tambahPutusan(Putusan p) {
-    if (repository.cariByNomor(p.getNomorPerkara()) != null) {
-        System.out.println("[GAGAL] Nomor perkara sudah ada di sistem.");
-        return false;
-    }
-    repository.simpan(p);
-    System.out.println("[SUKSES] Putusan berhasil disimpan. Total data: " + repository.getTotalData());
-    return true;
-}
-
-            String pengadilan = InputHandler.validasiString("Pengadilan       : ", sc);
-            String tanggal    = InputHandler.validasiString("Tanggal Putusan  : ", sc);
-            String nama       = InputHandler.validasiString("Nama Terdakwa    : ", sc);
-            int    umur       = InputHandler.validasiInt("Umur Terdakwa    : ", 1, 99, sc);
-            String jenis      = InputHandler.validasiString("Jenis Narkotika  : ", sc);
-            double berat      = InputHandler.validasiDoublePositif("Berat BB (gram)  : ", sc);
-            String pasal      = InputHandler.validasiString("Pasal Dilanggar  : ", sc);
-            String peran      = InputHandler.validasiString("Peran Terdakwa   : ", sc);
-            int    vonis      = InputHandler.validasiInt("Vonis (bulan)    : ", 1, 600, sc);
-            double denda      = InputHandler.validasiDouble("Denda (rupiah)   : ", sc);
-            String hakim      = InputHandler.validasiString("Nama Hakim       : ", sc);
-
-            Putusan p = new Putusan(nomor, pengadilan, tanggal, nama, umur,
-                                    jenis, berat, pasal, peran, vonis, denda, hakim);
-            repository.simpan(p);
-            System.out.println("[SUKSES] Putusan berhasil disimpan. " +
-                               "Total data: " + repository.getTotalData());
-            return true;
-
-        } catch (Exception e) {
-            System.out.println("[ERROR] Gagal menyimpan putusan: " + e.getMessage());
+        if (repository.cariByNomor(p.getNomorPerkara()) != null) {
+            System.out.println("[GAGAL] Nomor perkara sudah ada di sistem.");
             return false;
         }
+        repository.simpan(p);
+        System.out.println("[SUKSES] Putusan berhasil disimpan. Total data: " + repository.getTotalData());
+        return true;
     }
 
     // ==================== CARI ====================
-
-    /**
-     * Mencari putusan berdasarkan keyword dan mode.
-     * @param keyword kata kunci pencarian
-     * @param mode    "nomor" untuk cari by nomor perkara, "nama" untuk by nama terdakwa
-     * @return ArrayList hasil pencarian (kosong jika tidak ditemukan)
-     */
     public ArrayList<Putusan> cariPutusan(String keyword, String mode) {
         ArrayList<Putusan> hasil = new ArrayList<>();
-
         if (keyword == null || keyword.isEmpty()) {
             System.out.println("[INFO] Keyword tidak boleh kosong.");
             return hasil;
@@ -106,16 +65,8 @@ public class KnowledgeController {
     }
 
     // ==================== FILTER ====================
-
-    /**
-     * Filter putusan berdasarkan kriteria tertentu.
-     * @param kriteria "jenis" atau "pengadilan"
-     * @param nilai    nilai yang dicari
-     * @return ArrayList hasil filter
-     */
     public ArrayList<Putusan> filterPutusan(String kriteria, String nilai) {
         ArrayList<Putusan> hasil;
-
         switch (kriteria.toLowerCase()) {
             case "jenis":
                 hasil = repository.filterByJenis(nilai);
@@ -127,19 +78,12 @@ public class KnowledgeController {
                 System.out.println("[INFO] Kriteria tidak dikenal. Gunakan 'jenis' atau 'pengadilan'.");
                 return new ArrayList<>();
         }
-
         if (hasil.isEmpty())
             System.out.println("[INFO] Tidak ada data yang cocok dengan filter: " + nilai);
         return hasil;
     }
 
     // ==================== HAPUS ====================
-
-    /**
-     * Menghapus putusan berdasarkan nomor perkara.
-     * @param nomor nomor perkara yang akan dihapus
-     * @return true jika berhasil dihapus
-     */
     public boolean hapusPutusan(String nomor) {
         if (nomor == null || nomor.isEmpty()) {
             System.out.println("[GAGAL] Nomor perkara tidak boleh kosong.");
@@ -152,17 +96,11 @@ public class KnowledgeController {
     }
 
     // ==================== STATISTIK ====================
-
-    /**
-     * Menghitung dan mengembalikan statistik seluruh data putusan.
-     * @return objek StatistikPutusan yang sudah dihitung
-     */
     public StatistikPutusan getStatistik() {
         return new StatistikPutusan(repository.getDaftarSemua());
     }
 
-    // ==================== GETTER UMUM ====================
-
+    // ==================== GETTER ====================
     /**
      * Mengembalikan seluruh daftar putusan untuk ditampilkan View.
      * @return semua putusan dalam ArrayList
@@ -170,7 +108,6 @@ public class KnowledgeController {
     public ArrayList<Putusan> getDaftarSemua() {
         return repository.getDaftarSemua();
     }
-
     /**
      * Mengembalikan total jumlah data di repository.
      * @return jumlah data
@@ -180,14 +117,7 @@ public class KnowledgeController {
     }
 
     // ==================== DATA SAMPEL 50 PUTUSAN ====================
-
-    /**
-     * Memuat 50 data putusan hardcoded untuk keperluan demo.
-     * Dipanggil otomatis saat KnowledgeController diinisialisasi.
-     */
     private void muatDataSampel() {
-        // Format: nomorPerkara, pengadilan, tanggal, nama, umur,
-        //         jenis, berat, pasal, peran, vonis(bln), denda, hakim
         repository.simpan(new Putusan("1/Pid.Sus/2024/PN Sby","PN Surabaya","10-01-2024","Budi Santoso",28,"Sabu-sabu",10.5,"Pasal 112 ayat 1","Pengguna",24,800000000,"H. Bambang"));
         repository.simpan(new Putusan("2/Pid.Sus/2024/PN Sby","PN Surabaya","11-01-2024","Siti Rahayu",35,"Ganja",250.0,"Pasal 111 ayat 1","Bandar",60,1000000000,"H. Slamet"));
         repository.simpan(new Putusan("3/Pid.Sus/2024/PN Sby","PN Surabaya","12-01-2024","Ahmad Fauzi",22,"Sabu-sabu",5.2,"Pasal 112 ayat 1","Kurir",36,800000000,"H. Bambang"));
