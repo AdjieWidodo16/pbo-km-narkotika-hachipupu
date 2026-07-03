@@ -41,6 +41,9 @@ public class KnowledgeController {
     // ==================== CARI ====================
     public ArrayList<Putusan> cariPutusan(String keyword, String mode) {
         ArrayList<Putusan> hasil = new ArrayList<>();
+        if (keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
         if (keyword == null || keyword.isEmpty()) {
             System.out.println("[INFO] Keyword tidak boleh kosong.");
             return hasil;
