@@ -73,6 +73,9 @@ public class KnowledgeController {
     }
 
     // ==================== FILTER ====================
+    /**
+     * Melakukan filter data putusan berdasarkan kriteria.
+     */
     public ArrayList<Putusan> filterPutusan(String kriteria, String nilai) {
         ArrayList<Putusan> hasil;
         switch (kriteria.toLowerCase()) {
