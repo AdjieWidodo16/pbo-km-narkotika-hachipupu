@@ -82,6 +82,12 @@ public class KnowledgeController {
             return hasil;
         }
 
+        if (mode.equalsIgnoreCase("nama")) {
+            if (p.getNamaTerdakwa().toLowerCase().contains(keyword.toLowerCase())) {
+                hasil.add(p);
+            }
+        }
+
         switch (mode.toLowerCase()) {
             case "nomor":
                 Putusan p = repository.cariByNomor(keyword);
