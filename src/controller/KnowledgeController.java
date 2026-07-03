@@ -54,7 +54,10 @@ public class KnowledgeController {
                 hasil.add(p);
             }
         }
-
+        if (!mode.equalsIgnoreCase("nomor") &&
+                !mode.equalsIgnoreCase("nama")) {
+            return new ArrayList<>();
+        }
         switch (mode.toLowerCase()) {
             case "nomor":
                 Putusan p = repository.cariByNomor(keyword);
