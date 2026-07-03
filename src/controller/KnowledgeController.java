@@ -48,12 +48,6 @@ public class KnowledgeController {
             System.out.println("[INFO] Keyword tidak boleh kosong.");
             return hasil;
         }
-
-        if (mode.equalsIgnoreCase("nama")) {
-            if (p.getNamaTerdakwa().toLowerCase().contains(keyword.toLowerCase())) {
-                hasil.add(p);
-            }
-        }
         if (!mode.equalsIgnoreCase("nomor") &&
                 !mode.equalsIgnoreCase("nama")) {
             return new ArrayList<>();
