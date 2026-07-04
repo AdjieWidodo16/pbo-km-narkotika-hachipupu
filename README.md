@@ -18,4 +18,4 @@ javac -d out src/app/*.java src/controller/*.java src/model/*.java src/view/*.ja
 java -cp out app.Main
 
 ## Video Demo
-[Link YouTube]
+(https://youtu.be/dCB_56HnP2I)
